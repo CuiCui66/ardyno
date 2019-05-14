@@ -28,7 +28,7 @@ void DynamixelInterfaceImpl<T>::readMode()
 		setReadMode(mStream, mTxPin);
 	}
 }
-	
+
 template<class T>
 void DynamixelInterfaceImpl<T>::writeMode()
 {
@@ -41,7 +41,7 @@ void DynamixelInterfaceImpl<T>::writeMode()
 		setWriteMode(mStream, mTxPin);
 	}
 }
-	
+
 template<class T>
 DynamixelInterfaceImpl<T>::DynamixelInterfaceImpl(T &aStream, uint8_t aTxPin, uint8_t aDirectionPin=NO_DIR_PORT):
 	mStream(aStream), mDirectionPin(aDirectionPin), mTxPin(aTxPin)
@@ -182,7 +182,7 @@ uint8_t TxPinFromHardwareSerial(const HardwareSerial &aSerial)
 	if((&aSerial)==(&Serial1))
 		return 1;
 #endif
-#if defined ARDUINO_AVR_MEGA2560 || defined ARDUINO_AVR_MEGA || defined ARDUINO_AVR_ADK 
+#if defined ARDUINO_AVR_MEGA2560 || defined ARDUINO_AVR_MEGA || defined ARDUINO_AVR_ADK
 	if((&aSerial)==(&Serial1))
 		return 18;
 	if((&aSerial)==(&Serial2))
@@ -284,4 +284,3 @@ void setWriteMode<SoftwareSerial>(SoftwareSerial &aStream, uint8_t mTxPin)
 	aStream.stopListening();
 	pinMode(mTxPin, OUTPUT);
 }
-

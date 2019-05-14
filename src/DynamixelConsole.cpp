@@ -24,10 +24,10 @@ void DynamixelConsole::loop()
 	//empty input buffer
 	while(mConsole.available())
 		mConsole.read();
-	
+
 	//write new command prompt
 	mConsole.write(">");
-	
+
 	// read one command line
 	char c;
 	while((c=mConsole.read())!='\n' && c!='\r')
@@ -56,7 +56,7 @@ void DynamixelConsole::run()
 {
 	char *argv[16];
 	int argc=parseCmd(argv);
-	
+
 	if(strcmp(argv[0], "help")==0)
 	{
 		printHelp();
@@ -131,7 +131,7 @@ void DynamixelConsole::printStatus(DynamixelStatus aStatus)
 	else
 	{
 		mConsole.print("communication ok");
-		
+
 		if(aStatus&DYN_STATUS_INPUT_VOLTAGE_ERROR)
 		{
 			mConsole.print(", invalid input voltage");
@@ -226,7 +226,7 @@ DynamixelStatus DynamixelConsole::read(int argc, char **argv)
 	}
 	uint8_t *ptr=new uint8_t[length];
 	DynamixelStatus result=mInterface.read(id, addr, length, ptr);
-	printData(ptr,length); 
+	printData(ptr,length);
 	delete ptr;
 	return result;
 }
@@ -250,7 +250,7 @@ DynamixelStatus DynamixelConsole::write(int argc, char **argv)
 	{
 		return DYN_STATUS_INTERNAL_ERROR;
 	}
-	
+
 	uint8_t *ptr=new uint8_t[length];
 	for(uint8_t i=0; i<length; ++i)
 	{
@@ -306,7 +306,7 @@ DynamixelStatus DynamixelConsole::action(int argc, char **argv)
 DynamixelStatus DynamixelConsole::sync_write(int argc, char **argv)
 {
 	int id_number=0, addr=0, length=0;
-	
+
 	if(argc>3)
 	{
 		id_number=atoi(argv[1]);
@@ -318,7 +318,7 @@ DynamixelStatus DynamixelConsole::sync_write(int argc, char **argv)
 		mConsole.print("Usage : sync_write <id_number> <address> <id_1> <data_1_1> ... <data_1_N> ... <id_M> <data_M_1> ... <data_M_N>\n\r");
 		return DYN_STATUS_INTERNAL_ERROR;
 	}
-	
+
 	uint8_t *id_ptr=new uint8_t[id_number];
 	uint8_t *data_ptr=new uint8_t[id_number*length];
 	int index=3;
@@ -332,7 +332,7 @@ DynamixelStatus DynamixelConsole::sync_write(int argc, char **argv)
 			++index;
 		}
 	}
-	
+
 	DynamixelStatus result=mInterface.syncWrite(id_number, id_ptr, addr, length, data_ptr);
 	delete[] data_ptr;
 	delete[] id_ptr;
@@ -356,5 +356,3 @@ DynamixelStatus DynamixelConsole::baudrate(int argc, char **argv)
 	mInterface.begin(baud);
 	return DYN_STATUS_OK;
 }
-
-

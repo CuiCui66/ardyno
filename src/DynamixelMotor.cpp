@@ -103,9 +103,11 @@ void DynamixelMotor::enableTorque(bool aTorque)
 
 void DynamixelMotor::speed(int16_t aSpeed)
 {
-	if(aSpeed<0) 
+    if(aSpeed > 1023) aSpeed = 1023;
+    if(aSpeed < -1023) aSpeed = -1023;
+	if(aSpeed<0)
 	{
-		aSpeed=-aSpeed | 1024;
+		aSpeed=-aSpeed + 1024;
 	}
 	write(DYN_ADDRESS_GOAL_SPEED, aSpeed);
 }
@@ -126,11 +128,53 @@ uint16_t DynamixelMotor::currentPosition()
 	read(DYN_ADDRESS_CURRENT_POSITION, currentPosition);
 	return currentPosition;
 }
+uint16_t DynamixelMotor::currentSpeed()
+{
+	uint16_t currentSpeed;
+	read(DYN_ADDRESS_CURRENT_SPEED, currentSpeed);
+	return currentSpeed;
+}
+uint16_t DynamixelMotor::currentLoad()
+{
+	uint16_t currentLoad;
+	read(DYN_ADDRESS_CURRENT_LOAD, currentLoad);
+	return currentLoad;
+}
+uint8_t DynamixelMotor::currentVoltage()
+{
+	uint8_t currentVoltage;
+	read(DYN_ADDRESS_CURRENT_VOLTAGE, currentVoltage);
+	return currentVoltage;
+}
+uint8_t DynamixelMotor::currentTemperature()
+{
+	uint8_t currentTemperature;
+	read(DYN_ADDRESS_CURRENT_TEMPERATURE, currentTemperature);
+	return currentTemperature;
+}
+
 
 DynamixelStatus DynamixelMotor::getCurrentPosition(uint16_t &pos)
 {
 	return read(DYN_ADDRESS_CURRENT_POSITION, pos);
 }
+DynamixelStatus DynamixelMotor::getCurrentSpeed(uint16_t &spd)
+{
+	return read(DYN_ADDRESS_CURRENT_SPEED, spd);
+}
+DynamixelStatus DynamixelMotor::getCurrentLoad(uint16_t &ld)
+{
+	return read(DYN_ADDRESS_CURRENT_LOAD, ld);
+}
+DynamixelStatus DynamixelMotor::getCurrentVoltage(uint8_t &volt)
+{
+	return read(DYN_ADDRESS_CURRENT_VOLTAGE, volt);
+}
+DynamixelStatus DynamixelMotor::getCurrentTemperature(uint8_t &temp)
+{
+	return read(DYN_ADDRESS_CURRENT_TEMPERATURE, temp);
+}
+
 
 DynamixelStatus DynamixelMotor::setComplianceMargins(uint8_t cw_margin, uint8_t ccw_margin, uint8_t cw_slope, uint8_t ccw_slope)
 {
@@ -147,7 +191,7 @@ DynamixelStatus DynamixelMotor::setComplianceMargins(uint8_t cw_margin, uint8_t 
 
 	return write(DYN_ADDRESS_CCW_COMP_SLOPE, ccw_slope);
 }
-	
+
 DynamixelStatus DynamixelMotor::getComplianceMargins(uint8_t &cw_margin, uint8_t &ccw_margin, uint8_t &cw_slope, uint8_t &ccw_slope)
 {
 	DynamixelStatus status;
@@ -160,11 +204,11 @@ DynamixelStatus DynamixelMotor::getComplianceMargins(uint8_t &cw_margin, uint8_t
 
 	status = read(DYN_ADDRESS_CW_COMP_SLOPE, cw_slope);
 	if (DYN_STATUS_OK != status) { return status; }
-	
+
 	return read(DYN_ADDRESS_CCW_COMP_SLOPE, ccw_slope);
 }
 
-DynamixelStatus DynamixelMotor::isMoving(uint8_t &moving) 
+DynamixelStatus DynamixelMotor::isMoving(uint8_t &moving)
 {
 	return read(DYN_ADDRESS_MOVING, moving);
 }

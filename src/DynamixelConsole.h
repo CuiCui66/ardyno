@@ -17,19 +17,19 @@ class Stream;
 class DynamixelConsole
 {
 	public:
-	
+
 	DynamixelConsole(DynamixelInterface &aInterface, Stream &aConsole);
-	
+
 	void loop();
-	
+
 	private:
-	
+
 	void run();
 	int parseCmd(char **argv);
 	void printStatus(DynamixelStatus aStatus);
 	void printData(const uint8_t *data, uint8_t length);
 	void printHelp();
-	
+
 	DynamixelStatus ping(int argc, char **argv);
 	DynamixelStatus read(int argc, char **argv);
 	DynamixelStatus write(int argc, char **argv);
@@ -38,13 +38,13 @@ class DynamixelConsole
 	DynamixelStatus action(int argc, char **argv);
 	DynamixelStatus sync_write(int argc, char **argv);
 	DynamixelStatus baudrate(int argc, char **argv);
-	
+
 	const static size_t sLineBufferSize=255;
 	char mLineBuffer[sLineBufferSize+1];
 	char *mLinePtr;
 	DynamixelInterface &mInterface;
 	Stream &mConsole;
-	
+
 	const static DynamixelCommand sCommand[];
 };
 

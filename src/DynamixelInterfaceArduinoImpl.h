@@ -12,12 +12,12 @@ class DynamixelInterfaceImpl:public DynamixelInterface
 	private:
 	/** \brief Switch stream to read (receive)) mode */
 	void readMode();
-	
+
 	/** \brief Switch stream to write (send) mode */
 	void writeMode();
-	
+
 	public:
-	
+
 	/**
 	 * \brief Constructor
 	 * \param[in] aStreamController : stream controller that abstract real stream
@@ -25,13 +25,13 @@ class DynamixelInterfaceImpl:public DynamixelInterface
 	 * \param[in] aDirectionPin : direction pin, use NO_DIR_PORT if you do not use one (default)
 	*/
 	DynamixelInterfaceImpl(T &aStream, uint8_t aTxPin, uint8_t aDirectionPin);
-	
+
 	/**
 	 * \brief Destructor
 	 * Delete stream if it is owned by the instance
 	 */
 	~DynamixelInterfaceImpl();
-	
+
 	/**
 	 * \brief Start interface
 	 * \param[in] aBaud : Baudrate
@@ -39,7 +39,7 @@ class DynamixelInterfaceImpl:public DynamixelInterface
 	 * Start the interface with desired baudrate, call once before using the interface
 	*/
 	void begin(unsigned long aBaud);
-	
+
 	/**
 	 * \brief Send a packet on bus
 	 * \param[in] aPacket : Packet to send
@@ -62,11 +62,11 @@ class DynamixelInterfaceImpl:public DynamixelInterface
          * \brief Stop interface
         */
         void end();
-	
+
 	static const uint8_t NO_DIR_PORT=255;
-	
+
 	private:
-	
+
 	T &mStream;
 	const uint8_t mDirectionPin;
 
